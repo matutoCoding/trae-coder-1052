@@ -149,7 +149,26 @@ const RoomDetailPage: React.FC = () => {
   };
 
   const handleViewReviews = () => {
+    console.log('[RoomDetailPage] 跳转到评价页，房间ID:', roomId);
     Taro.navigateTo({ url: `/pages/review/index?roomId=${roomId}` });
+  };
+
+  const handleImagePreview = (images: string[], current: string) => {
+    try {
+      console.log('[RoomDetailPage] 预览评价图片:', current);
+      const safeImages = Array.isArray(images) ? images.filter(img => img && typeof img === 'string') : [];
+      if (safeImages.length === 0) {
+        Taro.showToast({ title: '图片加载失败', icon: 'none' });
+        return;
+      }
+      Taro.previewImage({
+        urls: safeImages,
+        current: current || safeImages[0]
+      });
+    } catch (error) {
+      console.error('[RoomDetailPage] 预览图片失败:', error);
+      Taro.showToast({ title: '预览失败', icon: 'none' });
+    }
   };
 
   if (loading) {
@@ -323,27 +342,53 @@ const RoomDetailPage: React.FC = () => {
                 <Text style={{ fontSize: 24, color: '#C4956A' }} onClick={handleViewReviews}>查看全部 →</Text>
               </View>
               
-              {reviews.map(review => (
-                <View key={review.id} style={{ padding: 24, background: '#FAF7F2', borderRadius: 16, marginBottom: 16 }}>
-                  <View style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 12 }}>
-                    <Image src={review.avatar} style={{ width: 64, height: 64, borderRadius: 32 }} />
-                    <View>
-                      <Text style={{ fontSize: 28, fontWeight: 600, color: '#3D2E1F' }}>{review.userName}</Text>
-                      <View style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>
-                        <Text style={{ fontSize: 24, color: '#E8A33D' }}>{generateStars(review.rating)}</Text>
-                        <Text style={{ fontSize: 22, color: '#9C8B7D' }}>{formatDate(review.date)}</Text>
+              {reviews.map(review => {
+                const safeImages = Array.isArray(review.images) ? review.images.filter(img => img && typeof img === 'string') : [];
+                const hasReply = !!review.reply;
+                return (
+                  <View key={review.id} className={`${styles.reviewPreviewCard} ${hasReply ? styles.hasReply : ''}`}>
+                    <View style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 12 }}>
+                      <Image src={review.avatar || 'https://picsum.photos/id/64/200/200'} style={{ width: 64, height: 64, borderRadius: 32 }} />
+                      <View style={{ flex: 1 }}>
+                        <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                          <Text style={{ fontSize: 28, fontWeight: 600, color: '#3D2E1F' }}>{review.userName || '匿名用户'}</Text>
+                          {hasReply && (
+                            <View style={{ padding: '4rpx 12rpx', background: '#5D7A6B', borderRadius: 6, fontSize: 20, color: '#fff', fontWeight: 500 }}>
+                              已回复
+                            </View>
+                          )}
+                        </View>
+                        <View style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>
+                          <Text style={{ fontSize: 24, color: '#E8A33D' }}>{generateStars(review.rating || 0)}</Text>
+                          <Text style={{ fontSize: 22, color: '#9C8B7D' }}>{review.date ? formatDate(review.date) : ''}</Text>
+                        </View>
                       </View>
                     </View>
+                    <Text style={{ fontSize: 26, color: '#6B5B4F', lineHeight: 1.6 }}>{review.content || ''}</Text>
+                    
+                    {safeImages.length > 0 && (
+                      <View style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginTop: 16, marginBottom: 16 }}>
+                        {safeImages.slice(0, 3).map((img, index) => (
+                          <Image
+                            key={index}
+                            src={img}
+                            style={{ width: '100%', aspectRatio: 1, borderRadius: 12 }}
+                            mode="aspectFill"
+                            onClick={() => handleImagePreview(safeImages, img)}
+                          />
+                        ))}
+                      </View>
+                    )}
+                    
+                    {review.reply && (
+                      <View style={{ marginTop: 12, padding: 16, background: '#F5EDE0', borderRadius: 12, borderLeft: '4rpx solid #5D7A6B' }}>
+                        <Text style={{ fontSize: 24, color: '#5D7A6B', fontWeight: 500 }}>💬 店家回复</Text>
+                        <Text style={{ fontSize: 24, color: '#6B5B4F', marginTop: 6, lineHeight: 1.6 }}>{review.reply}</Text>
+                      </View>
+                    )}
                   </View>
-                  <Text style={{ fontSize: 26, color: '#6B5B4F', lineHeight: 1.6 }}>{review.content}</Text>
-                  {review.reply && (
-                    <View style={{ marginTop: 12, padding: 16, background: '#F5EDE0', borderRadius: 12 }}>
-                      <Text style={{ fontSize: 24, color: '#5D7A6B', fontWeight: 500 }}>店家回复：</Text>
-                      <Text style={{ fontSize: 24, color: '#6B5B4F', marginTop: 4 }}>{review.reply}</Text>
-                    </View>
-                  )}
-                </View>
-              ))}
+                );
+              })}
             </View>
           )}
         </View>

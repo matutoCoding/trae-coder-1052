@@ -420,3 +420,17 @@
   font-size: 28rpx;
   color: $color-text-tertiary;
 }
+
+.reviewPreviewCard {
+  padding: 24rpx;
+  background: $color-bg-page;
+  border-radius: 16rpx;
+  margin-bottom: 16rpx;
+  transition: all 0.2s ease;
+  position: relative;
+
+  &.hasReply {
+    border: 2rpx solid $color-secondary;
+    background: linear-gradient(135deg, $color-bg-page 0%, rgba(93, 122, 107, 0.05) 100%);
+  }
+}

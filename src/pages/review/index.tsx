@@ -1,18 +1,19 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { View, Text, Image, ScrollView } from '@tarojs/components';
-import Taro, { useRouter } from '@tarojs/taro';
+import Taro, { useRouter, useDidShow, useDidHide } from '@tarojs/taro';
 import styles from './index.module.scss';
 import { reviewList } from '@/data/reviews';
 import { roomList } from '@/data/rooms';
 import { formatDate, generateStars } from '@/utils';
-import type { Review } from '@/types';
+import type { Review, Room } from '@/types';
 
 const filterOptions = [
   { key: 'all', label: '全部' },
-  { key: 'good', label: '好评 (4-5分)' },
-  { key: 'medium', label: '中评 (3分)' },
-  { key: 'bad', label: '差评 (1-2分)' },
+  { key: 'good', label: '好评' },
+  { key: 'medium', label: '中评' },
+  { key: 'bad', label: '差评' },
   { key: 'withImage', label: '带图' },
+  { key: 'noReply', label: '待回复' },
   { key: 'room', label: '房间' },
   { key: 'activity', label: '活动' },
   { key: 'dining', label: '餐饮' }
@@ -32,94 +33,89 @@ const typeLabels: Record<string, string> = {
 };
 
 const commonTags = [
-  '服务热情', '环境优美', '干净整洁', '交通便利',
-  '性价比高', '设施齐全', '风景好', '体验棒',
-  '美食好吃', '亲子适合', '文化氛围', '隔音好'
+  { name: '服务热情', count: 42 },
+  { name: '环境优美', count: 38 },
+  { name: '干净整洁', count: 35 },
+  { name: '交通便利', count: 28 },
+  { name: '性价比高', count: 25 },
+  { name: '设施齐全', count: 22 }
 ];
+
+const sortOptions = [
+  { key: 'date_desc', label: '最新', icon: '🕐' },
+  { key: 'date_asc', label: '最早', icon: '🕑' },
+  { key: 'rating_desc', label: '好评优先', icon: '⭐' },
+  { key: 'rating_asc', label: '差评优先', icon: '💬' }
+];
+
+let globalRoomIdCache = '';
+let globalFilterCache = 'all';
+let globalSortCache = 'date_desc';
 
 const ReviewPage: React.FC = () => {
   const router = useRouter();
   const roomId = router.params?.roomId || '';
   
   const [reviews, setReviews] = useState<Review[]>([]);
-  const [filteredReviews, setFilteredReviews] = useState<Review[]>([]);
+  const [currentRoom, setCurrentRoom] = useState<Room | null>(null);
   const [loading, setLoading] = useState(true);
-  const [activeFilter, setActiveFilter] = useState('all');
+  const [activeFilter, setActiveFilter] = useState(globalFilterCache);
+  const [sortType, setSortType] = useState<string>(globalSortCache);
   const [displayCount, setDisplayCount] = useState(10);
+  const [showSortMenu, setShowSortMenu] = useState(false);
 
   useEffect(() => {
-    console.log('[ReviewPage] 页面加载，房间ID:', roomId);
-    loadData();
+    const initialRoomId = roomId || globalRoomIdCache;
+    globalRoomIdCache = initialRoomId;
+    console.log('[ReviewPage] 页面加载，房间ID:', initialRoomId, '筛选:', globalFilterCache, '排序:', globalSortCache);
+    loadData(initialRoomId);
   }, [roomId]);
 
-  const loadData = () => {
+  useDidShow(() => {
+    console.log('[ReviewPage] useDidShow，使用缓存状态 - 房间:', globalRoomIdCache, '筛选:', globalFilterCache);
+  });
+
+  useDidHide(() => {
+    globalFilterCache = activeFilter;
+    globalSortCache = sortType;
+    if (globalRoomIdCache || roomId) {
+      globalRoomIdCache = roomId || globalRoomIdCache;
+    }
+    console.log('[ReviewPage] useDidHide，缓存状态');
+  });
+
+  const loadData = (targetRoomId?: string) => {
     setLoading(true);
     try {
+      const safeRoomList = Array.isArray(roomList) ? roomList : [];
+      const safeReviewList = Array.isArray(reviewList) ? reviewList : [];
+      
       setTimeout(() => {
-        const safeReviewList = Array.isArray(reviewList) ? reviewList : [];
         let data = [...safeReviewList];
-        if (roomId) {
-          data = data.filter(r => r.roomId === roomId);
+        const rid = targetRoomId || roomId;
+        if (rid) {
+          data = data.filter(r => r.roomId === rid);
+          const foundRoom = safeRoomList.find(r => r.id === rid);
+          setCurrentRoom(foundRoom || null);
+          if (foundRoom) {
+            Taro.setNavigationBarTitle({ title: foundRoom.name + ' - 评价' });
+          }
+        } else {
+          setCurrentRoom(null);
         }
         setReviews(data);
-        setFilteredReviews(data);
         setLoading(false);
         console.log('[ReviewPage] 数据加载完成，共', data.length, '条评价');
       }, 300);
     } catch (error) {
       console.error('[ReviewPage] 数据加载失败:', error);
       setReviews([]);
-      setFilteredReviews([]);
+      setCurrentRoom(null);
       setLoading(false);
     }
   };
 
-
-
-  const stats = useMemo(() => {
-    if (reviews.length === 0) {
-      return {
-        average: 0,
-        total: 0,
-        good: 0,
-        medium: 0,
-        bad: 0,
-        withImage: 0,
-        replyRate: 0,
-        categories: {
-          cleanliness: 0,
-          service: 0,
-          location: 0,
-          facilities: 0
-        }
-      };
-    }
-
-    const avg = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
-    const good = reviews.filter(r => r.rating >= 4).length;
-    const medium = reviews.filter(r => r.rating === 3).length;
-    const bad = reviews.filter(r => r.rating <= 2).length;
-    const withImage = reviews.filter(r => r.images.length > 0).length;
-    const replied = reviews.filter(r => r.reply).length;
-
-    return {
-      average: Math.round(avg * 10) / 10,
-      total: reviews.length,
-      good,
-      medium,
-      bad,
-      withImage,
-      replyRate: Math.round((replied / reviews.length) * 100),
-      categories: {
-        cleanliness: Math.round((avg * 1.05) * 10) / 10,
-        service: Math.round((avg * 1.02) * 10) / 10,
-        location: Math.round((avg * 0.98) * 10) / 10,
-        facilities: Math.round((avg * 0.95) * 10) / 10
-      }
-    };
-  }, [reviews]);
-
-  useEffect(() => {
+  const filteredReviews = useMemo(() => {
     let result = [...reviews];
     
     switch (activeFilter) {
@@ -133,7 +129,13 @@ const ReviewPage: React.FC = () => {
         result = result.filter(r => r.rating <= 2);
         break;
       case 'withImage':
-        result = result.filter(r => r.images.length > 0);
+        result = result.filter(r => {
+          const safeImages = Array.isArray(r.images) ? r.images : [];
+          return safeImages.length > 0;
+        });
+        break;
+      case 'noReply':
+        result = result.filter(r => !r.reply);
         break;
       case 'room':
         result = result.filter(r => r.type === 'room');
@@ -145,11 +147,81 @@ const ReviewPage: React.FC = () => {
         result = result.filter(r => r.type === 'dining');
         break;
     }
+
+    const now = Date.now();
+    result.sort((a, b) => {
+      switch (sortType) {
+        case 'date_desc':
+          return new Date(b.date).getTime() - new Date(a.date).getTime();
+        case 'date_asc':
+          return new Date(a.date).getTime() - new Date(b.date).getTime();
+        case 'rating_desc':
+          if (b.rating !== a.rating) {
+            return b.rating - a.rating;
+          }
+          return new Date(b.date).getTime() - new Date(a.date).getTime();
+        case 'rating_asc':
+          if (a.rating !== b.rating) {
+            return a.rating - b.rating;
+          }
+          return new Date(b.date).getTime() - new Date(a.date).getTime();
+        default:
+          return 0;
+      }
+    });
     
-    setFilteredReviews(result);
-    setDisplayCount(10);
-    console.log('[ReviewPage] 筛选条件变更:', activeFilter, '筛选结果:', result.length, '条');
-  }, [activeFilter, reviews]);
+    return result;
+  }, [reviews, activeFilter, sortType]);
+
+  const stats = useMemo(() => {
+    const list = filteredReviews;
+    if (list.length === 0) {
+      return {
+        average: 0,
+        total: 0,
+        good: 0,
+        medium: 0,
+        bad: 0,
+        withImage: 0,
+        replyRate: 0,
+        noReply: 0,
+        categories: {
+          cleanliness: 0,
+          service: 0,
+          location: 0,
+          facilities: 0
+        }
+      };
+    }
+
+    const avg = list.reduce((sum, r) => sum + r.rating, 0) / list.length;
+    const good = list.filter(r => r.rating >= 4).length;
+    const medium = list.filter(r => r.rating === 3).length;
+    const bad = list.filter(r => r.rating <= 2).length;
+    const withImage = list.filter(r => {
+      const safeImages = Array.isArray(r.images) ? r.images : [];
+      return safeImages.length > 0;
+    }).length;
+    const replied = list.filter(r => r.reply).length;
+    const noReply = list.length - replied;
+
+    return {
+      average: Math.round(avg * 10) / 10,
+      total: list.length,
+      good,
+      medium,
+      bad,
+      withImage,
+      replyRate: list.length > 0 ? Math.round((replied / list.length) * 100) : 0,
+      noReply,
+      categories: {
+        cleanliness: Math.round((avg * 1.05) * 10) / 10,
+        service: Math.round((avg * 1.02) * 10) / 10,
+        location: Math.round((avg * 0.98) * 10) / 10,
+        facilities: Math.round((avg * 0.95) * 10) / 10
+      }
+    };
+  }, [filteredReviews]);
 
   const getRoomName = (id?: string) => {
     if (!id) return '';
@@ -165,6 +237,15 @@ const ReviewPage: React.FC = () => {
 
   const handleFilterClick = (key: string) => {
     setActiveFilter(key);
+    setDisplayCount(10);
+    console.log('[ReviewPage] 筛选条件变更:', key, '筛选结果:', filteredReviews.length, '条');
+  };
+
+  const handleSortClick = (key: string) => {
+    setSortType(key);
+    setShowSortMenu(false);
+    setDisplayCount(10);
+    console.log('[ReviewPage] 排序方式变更:', key);
   };
 
   const handleLoadMore = () => {
@@ -192,6 +273,15 @@ const ReviewPage: React.FC = () => {
     }
   };
 
+  const handleBack = () => {
+    Taro.navigateBack({ delta: 1 });
+  };
+
+  const currentSortLabel = useMemo(() => {
+    const option = sortOptions.find(o => o.key === sortType);
+    return option ? option.label : '最新';
+  }, [sortType]);
+
   const displayReviews = useMemo(() => {
     return filteredReviews.slice(0, displayCount);
   }, [filteredReviews, displayCount]);
@@ -206,6 +296,23 @@ const ReviewPage: React.FC = () => {
 
   return (
     <View className={styles.page}>
+      {currentRoom && (
+        <View className={styles.roomHeader}>
+          <View className={styles.backBtn} onClick={handleBack}>
+            ←
+          </View>
+          <View className={styles.roomInfo}>
+            <Text className={styles.roomName}>{currentRoom.name}</Text>
+            <View className={styles.roomRating}>
+              <Text className={styles.roomRatingValue}>{currentRoom.rating}</Text>
+              <Text className={styles.roomStars}>{generateStars(currentRoom.rating)}</Text>
+              <Text className={styles.roomReviewCount}>{currentRoom.reviewCount}条评价</Text>
+            </View>
+          </View>
+          <Image className={styles.roomThumb} src={currentRoom.images[0]} mode="aspectFill" />
+        </View>
+      )}
+
       <View className={styles.header}>
         <View className={styles.overallRating}>
           <View className={styles.ratingLeft}>
@@ -230,42 +337,68 @@ const ReviewPage: React.FC = () => {
         </View>
 
         <View className={styles.summaryRow}>
-          <View className={styles.summaryItem}>
-            <Text className={styles.summaryValue}>{stats.good}</Text>
+          <View className={styles.summaryItem} onClick={() => handleFilterClick('good')}>
+            <Text className={`${styles.summaryValue} ${activeFilter === 'good' ? styles.active : ''}`}>{stats.good}</Text>
             <Text className={styles.summaryLabel}>好评</Text>
           </View>
-          <View className={styles.summaryItem}>
-            <Text className={styles.summaryValue}>{stats.replyRate}%</Text>
-            <Text className={styles.summaryLabel}>回复率</Text>
+          <View className={styles.summaryItem} onClick={() => handleFilterClick('noReply')}>
+            <Text className={`${styles.summaryValue} ${activeFilter === 'noReply' ? styles.active : ''}`}>{stats.noReply}</Text>
+            <Text className={styles.summaryLabel}>待回复</Text>
           </View>
-          <View className={styles.summaryItem}>
-            <Text className={styles.summaryValue}>{stats.withImage}</Text>
+          <View className={styles.summaryItem} onClick={() => handleFilterClick('withImage')}>
+            <Text className={`${styles.summaryValue} ${activeFilter === 'withImage' ? styles.active : ''}`}>{stats.withImage}</Text>
             <Text className={styles.summaryLabel}>带图</Text>
           </View>
         </View>
 
         <View className={styles.tagsRow}>
-          {commonTags.slice(0, 6).map((tag, index) => (
+          {commonTags.map((tag, index) => (
             <View key={index} className={styles.tag}>
-              {tag} ({Math.floor(Math.random() * 50) + 10})
+              {tag.name} ({tag.count})
             </View>
           ))}
         </View>
 
-        <View className={styles.filterTabs}>
-          {filterOptions.map(option => (
-            <View
-              key={option.key}
-              className={`${styles.filterTab} ${activeFilter === option.key ? styles.active : ''}`}
-              onClick={() => handleFilterClick(option.key)}
-            >
-              {option.label}
+        <View className={styles.filterBar}>
+          <ScrollView scrollX className={styles.filterScroll}>
+            <View className={styles.filterTabs}>
+              {filterOptions.map(option => (
+                <View
+                  key={option.key}
+                  className={`${styles.filterTab} ${activeFilter === option.key ? styles.active : ''}`}
+                  onClick={() => handleFilterClick(option.key)}
+                >
+                  {option.label}
+                  {option.key === 'noReply' && stats.noReply > 0 && (
+                    <Text className={styles.badge}>{stats.noReply}</Text>
+                  )}
+                </View>
+              ))}
             </View>
-          ))}
+          </ScrollView>
+          <View className={styles.sortBtn} onClick={() => setShowSortMenu(!showSortMenu)}>
+            <Text className={styles.sortIcon}>↕</Text>
+            <Text className={styles.sortText}>{currentSortLabel}</Text>
+          </View>
         </View>
+
+        {showSortMenu && (
+          <View className={styles.sortMenu}>
+            {sortOptions.map(option => (
+              <View
+                key={option.key}
+                className={`${styles.sortMenuItem} ${sortType === option.key ? styles.active : ''}`}
+                onClick={() => handleSortClick(option.key)}
+              >
+                <Text>{option.icon} {option.label}</Text>
+                {sortType === option.key && <Text className={styles.sortCheck}>✓</Text>}
+              </View>
+            ))}
+          </View>
+        )}
       </View>
 
-      <ScrollView scrollY onScrollToLower={handleLoadMore}>
+      <ScrollView scrollY onScrollToLower={handleLoadMore} className={styles.listScroll}>
         <View className={styles.reviewList}>
           {displayReviews.length === 0 ? (
             <View className={styles.empty}>
@@ -275,13 +408,22 @@ const ReviewPage: React.FC = () => {
           ) : (
             displayReviews.map(review => {
               const safeImages = Array.isArray(review.images) ? review.images.filter(img => img && typeof img === 'string') : [];
+              const hasReply = !!review.reply;
               return (
-                <View key={review.id} className={styles.reviewCard}>
+                <View
+                  key={review.id}
+                  className={`${styles.reviewCard} ${hasReply ? styles.hasReply : ''}`}
+                >
+                  {hasReply && (
+                    <View className={styles.replyBadge}>
+                      <Text className={styles.replyBadgeText}>已回复</Text>
+                    </View>
+                  )}
                   <View className={styles.reviewHeader}>
-                    <Image 
-                      className={styles.avatar} 
-                      src={review.avatar || 'https://picsum.photos/id/64/200/200'} 
-                      mode="aspectFill" 
+                    <Image
+                      className={styles.avatar}
+                      src={review.avatar || 'https://picsum.photos/id/64/200/200'}
+                      mode="aspectFill"
                     />
                     <View className={styles.reviewerInfo}>
                       <Text className={styles.reviewerName}>{review.userName || '匿名用户'}</Text>
@@ -325,6 +467,12 @@ const ReviewPage: React.FC = () => {
                       <Text className={styles.replyDate}>{review.date ? formatDate(review.date) : ''} 回复</Text>
                     </View>
                   )}
+
+                  {!review.reply && (
+                    <View className={styles.noReplyHint}>
+                      <Text className={styles.noReplyText}>📌 待回复评价</Text>
+                    </View>
+                  )}
                 </View>
               );
             })
@@ -343,6 +491,10 @@ const ReviewPage: React.FC = () => {
           )}
         </View>
       </ScrollView>
+
+      {showSortMenu && (
+        <View className={styles.sortMask} onClick={() => setShowSortMenu(false)} />
+      )}
     </View>
   );
 };
