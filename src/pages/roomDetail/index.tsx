@@ -4,7 +4,7 @@ import Taro, { useRouter } from '@tarojs/taro';
 import styles from './index.module.scss';
 import { roomList, generateCalendarData } from '@/data/rooms';
 import { reviewList } from '@/data/reviews';
-import { formatPrice, formatDate, getWeekDay, getStatusText, getStatusColor, calculateNights, generateStars } from '@/utils';
+import { formatPrice, formatDate, getStatusText, getStatusColor, calculateNights, generateStars } from '@/utils';
 import type { Room, RoomCalendar, Review } from '@/types';
 
 const facilityIcons: Record<string, string> = {
@@ -43,12 +43,19 @@ const RoomDetailPage: React.FC = () => {
     setLoading(true);
     try {
       setTimeout(() => {
-        const foundRoom = roomList.find(r => r.id === roomId);
+        const safeRoomList = Array.isArray(roomList) ? roomList : [];
+        const foundRoom = safeRoomList.find(r => r.id === roomId);
         if (foundRoom) {
           setRoom(foundRoom);
-          const calendar = generateCalendarData(roomId);
-          setCalendarData(calendar);
-          setReviews(reviewList.filter(r => r.roomId === roomId || r.type === 'room').slice(0, 3));
+          try {
+            const calendar = generateCalendarData(roomId);
+            setCalendarData(Array.isArray(calendar) ? calendar : []);
+          } catch (e) {
+            console.error('[RoomDetailPage] 日历数据加载失败:', e);
+            setCalendarData([]);
+          }
+          const safeReviewList = Array.isArray(reviewList) ? reviewList : [];
+          setReviews(safeReviewList.filter(r => r.roomId === roomId || r.type === 'room').slice(0, 3));
           
           const today = new Date();
           const tomorrow = new Date(today);
@@ -61,17 +68,14 @@ const RoomDetailPage: React.FC = () => {
         }
         setLoading(false);
         console.log('[RoomDetailPage] 数据加载完成');
-      }, 500);
+      }, 300);
     } catch (error) {
       console.error('[RoomDetailPage] 数据加载失败:', error);
+      setRoom(null);
+      setCalendarData([]);
+      setReviews([]);
       setLoading(false);
     }
-  };
-
-  const onPullDownRefresh = () => {
-    console.log('[RoomDetailPage] 下拉刷新');
-    loadData();
-    Taro.stopPullDownRefresh();
   };
 
   const calendarDays = useMemo(() => {

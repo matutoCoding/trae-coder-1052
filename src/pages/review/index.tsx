@@ -2,7 +2,8 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { View, Text, Image, ScrollView } from '@tarojs/components';
 import Taro, { useRouter } from '@tarojs/taro';
 import styles from './index.module.scss';
-import { reviewList, roomList } from '@/data/reviews';
+import { reviewList } from '@/data/reviews';
+import { roomList } from '@/data/rooms';
 import { formatDate, generateStars } from '@/utils';
 import type { Review } from '@/types';
 
@@ -38,7 +39,7 @@ const commonTags = [
 
 const ReviewPage: React.FC = () => {
   const router = useRouter();
-  const roomId = router.params.roomId;
+  const roomId = router.params?.roomId || '';
   
   const [reviews, setReviews] = useState<Review[]>([]);
   const [filteredReviews, setFilteredReviews] = useState<Review[]>([]);
@@ -55,7 +56,8 @@ const ReviewPage: React.FC = () => {
     setLoading(true);
     try {
       setTimeout(() => {
-        let data = [...reviewList];
+        const safeReviewList = Array.isArray(reviewList) ? reviewList : [];
+        let data = [...safeReviewList];
         if (roomId) {
           data = data.filter(r => r.roomId === roomId);
         }
@@ -63,18 +65,16 @@ const ReviewPage: React.FC = () => {
         setFilteredReviews(data);
         setLoading(false);
         console.log('[ReviewPage] 数据加载完成，共', data.length, '条评价');
-      }, 500);
+      }, 300);
     } catch (error) {
       console.error('[ReviewPage] 数据加载失败:', error);
+      setReviews([]);
+      setFilteredReviews([]);
       setLoading(false);
     }
   };
 
-  const onPullDownRefresh = () => {
-    console.log('[ReviewPage] 下拉刷新');
-    loadData();
-    Taro.stopPullDownRefresh();
-  };
+
 
   const stats = useMemo(() => {
     if (reviews.length === 0) {
@@ -153,8 +153,14 @@ const ReviewPage: React.FC = () => {
 
   const getRoomName = (id?: string) => {
     if (!id) return '';
-    const room = roomList.find(r => r.id === id);
-    return room ? room.name : '';
+    try {
+      const safeRoomList = Array.isArray(roomList) ? roomList : [];
+      const room = safeRoomList.find(r => r.id === id);
+      return room ? room.name : '';
+    } catch (error) {
+      console.error('[ReviewPage] 获取房间名称失败:', error);
+      return '';
+    }
   };
 
   const handleFilterClick = (key: string) => {
@@ -169,11 +175,21 @@ const ReviewPage: React.FC = () => {
   };
 
   const handleImagePreview = (images: string[], current: string) => {
-    console.log('[ReviewPage] 预览图片:', current);
-    Taro.previewImage({
-      urls: images,
-      current
-    });
+    try {
+      console.log('[ReviewPage] 预览图片:', current);
+      const safeImages = Array.isArray(images) ? images.filter(img => img && typeof img === 'string') : [];
+      if (safeImages.length === 0) {
+        Taro.showToast({ title: '图片加载失败', icon: 'none' });
+        return;
+      }
+      Taro.previewImage({
+        urls: safeImages,
+        current: current || safeImages[0]
+      });
+    } catch (error) {
+      console.error('[ReviewPage] 预览图片失败:', error);
+      Taro.showToast({ title: '预览失败', icon: 'none' });
+    }
   };
 
   const displayReviews = useMemo(() => {
@@ -257,54 +273,61 @@ const ReviewPage: React.FC = () => {
               <Text className={styles.emptyText}>暂无评价</Text>
             </View>
           ) : (
-            displayReviews.map(review => (
-              <View key={review.id} className={styles.reviewCard}>
-                <View className={styles.reviewHeader}>
-                  <Image className={styles.avatar} src={review.avatar} mode="aspectFill" />
-                  <View className={styles.reviewerInfo}>
-                    <Text className={styles.reviewerName}>{review.userName}</Text>
-                    <View className={styles.reviewMeta}>
-                      <Text className={styles.reviewStars}>{generateStars(review.rating)}</Text>
-                      <Text className={styles.reviewDate}>{formatDate(review.date)}</Text>
-                      <View className={styles.reviewType}>{typeLabels[review.type]}</View>
+            displayReviews.map(review => {
+              const safeImages = Array.isArray(review.images) ? review.images.filter(img => img && typeof img === 'string') : [];
+              return (
+                <View key={review.id} className={styles.reviewCard}>
+                  <View className={styles.reviewHeader}>
+                    <Image 
+                      className={styles.avatar} 
+                      src={review.avatar || 'https://picsum.photos/id/64/200/200'} 
+                      mode="aspectFill" 
+                    />
+                    <View className={styles.reviewerInfo}>
+                      <Text className={styles.reviewerName}>{review.userName || '匿名用户'}</Text>
+                      <View className={styles.reviewMeta}>
+                        <Text className={styles.reviewStars}>{generateStars(review.rating || 0)}</Text>
+                        <Text className={styles.reviewDate}>{review.date ? formatDate(review.date) : ''}</Text>
+                        <View className={styles.reviewType}>{typeLabels[review.type] || '评价'}</View>
+                      </View>
                     </View>
                   </View>
+
+                  <Text className={styles.reviewContent}>{review.content || ''}</Text>
+
+                  {safeImages.length > 0 && (
+                    <View className={styles.reviewImages}>
+                      {safeImages.map((img, index) => (
+                        <Image
+                          key={index}
+                          className={styles.reviewImage}
+                          src={img}
+                          mode="aspectFill"
+                          onClick={() => handleImagePreview(safeImages, img)}
+                        />
+                      ))}
+                    </View>
+                  )}
+
+                  {review.roomId && (
+                    <View className={styles.reviewRoom}>
+                      入住房型：{getRoomName(review.roomId)}
+                    </View>
+                  )}
+
+                  {review.reply && (
+                    <View className={styles.replySection}>
+                      <View className={styles.replyHeader}>
+                        <Text className={styles.replyIcon}>💬</Text>
+                        <Text className={styles.replyLabel}>店家回复</Text>
+                      </View>
+                      <Text className={styles.replyContent}>{review.reply}</Text>
+                      <Text className={styles.replyDate}>{review.date ? formatDate(review.date) : ''} 回复</Text>
+                    </View>
+                  )}
                 </View>
-
-                <Text className={styles.reviewContent}>{review.content}</Text>
-
-                {review.images.length > 0 && (
-                  <View className={styles.reviewImages}>
-                    {review.images.map((img, index) => (
-                      <Image
-                        key={index}
-                        className={styles.reviewImage}
-                        src={img}
-                        mode="aspectFill"
-                        onClick={() => handleImagePreview(review.images, img)}
-                      />
-                    ))}
-                  </View>
-                )}
-
-                {review.roomId && (
-                  <View className={styles.reviewRoom}>
-                    入住房型：{getRoomName(review.roomId)}
-                  </View>
-                )}
-
-                {review.reply && (
-                  <View className={styles.replySection}>
-                    <View className={styles.replyHeader}>
-                      <Text className={styles.replyIcon}>💬</Text>
-                      <Text className={styles.replyLabel}>店家回复</Text>
-                    </View>
-                    <Text className={styles.replyContent}>{review.reply}</Text>
-                    <Text className={styles.replyDate}>{formatDate(review.date)} 回复</Text>
-                  </View>
-                )}
-              </View>
-            ))
+              );
+            })
           )}
 
           {displayCount < filteredReviews.length && (
