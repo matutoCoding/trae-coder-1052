@@ -1,0 +1,520 @@
+@import '@/styles/theme.scss';
+
+.page {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: 160rpx;
+}
+
+.content {
+  padding: 32rpx;
+}
+
+.section {
+  background: $color-bg-card;
+  border-radius: 24rpx;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 4rpx 24rpx rgba(196, 149, 106, 0.08);
+}
+
+.sectionTitle {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: $color-text-primary;
+  margin-bottom: 24rpx;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+
+  &::before {
+    content: '';
+    width: 8rpx;
+    height: 32rpx;
+    background: $color-primary;
+    border-radius: 4rpx;
+  }
+}
+
+.roomCard {
+  display: flex;
+  gap: 24rpx;
+}
+
+.roomImage {
+  width: 200rpx;
+  height: 150rpx;
+  border-radius: 16rpx;
+  flex-shrink: 0;
+}
+
+.roomInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.roomName {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: $color-text-primary;
+  line-height: 1.4;
+}
+
+.roomType {
+  font-size: 24rpx;
+  color: $color-primary-dark;
+  background: $color-primary-light;
+  padding: 4rpx 12rpx;
+  border-radius: 6rpx;
+  align-self: flex-start;
+  margin-top: 8rpx;
+}
+
+.roomSpecs {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: $color-text-tertiary;
+}
+
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  gap: 8rpx;
+  margin-top: 12rpx;
+}
+
+.price {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: $color-price;
+
+  .currency {
+    font-size: 24rpx;
+    font-weight: 500;
+  }
+}
+
+.unit {
+  font-size: 22rpx;
+  color: $color-text-tertiary;
+}
+
+.dateRow {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  margin-bottom: 24rpx;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.dateLabel {
+  font-size: 28rpx;
+  color: $color-text-secondary;
+  width: 120rpx;
+  flex-shrink: 0;
+}
+
+.dateValue {
+  flex: 1;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: $color-text-primary;
+}
+
+.dateWeekday {
+  font-size: 24rpx;
+  color: $color-text-tertiary;
+  margin-left: 12rpx;
+}
+
+.nightsInfo {
+  background: $color-bg-tag;
+  padding: 8rpx 16rpx;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+  color: $color-primary-dark;
+  font-weight: 600;
+}
+
+.arrow {
+  font-size: 32rpx;
+  color: $color-text-tertiary;
+  text-align: center;
+  margin: 16rpx 0;
+}
+
+.formItem {
+  margin-bottom: 24rpx;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.formLabel {
+  font-size: 28rpx;
+  color: $color-text-secondary;
+  margin-bottom: 12rpx;
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+
+  .required {
+    color: $color-error;
+  }
+}
+
+.formInput {
+  width: 100%;
+  height: 88rpx;
+  padding: 0 24rpx;
+  background: $color-bg-page;
+  border: 2rpx solid transparent;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  color: $color-text-primary;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+
+  &:focus {
+    border-color: $color-primary;
+    background: $color-bg-card;
+  }
+}
+
+.formTextarea {
+  width: 100%;
+  min-height: 160rpx;
+  padding: 20rpx 24rpx;
+  background: $color-bg-page;
+  border: 2rpx solid transparent;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  color: $color-text-primary;
+  box-sizing: border-box;
+  line-height: 1.6;
+  transition: border-color 0.2s ease;
+
+  &:focus {
+    border-color: $color-primary;
+    background: $color-bg-card;
+  }
+}
+
+.guestCountRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 24rpx;
+  background: $color-bg-page;
+  border-radius: 16rpx;
+}
+
+.guestLabel {
+  font-size: 28rpx;
+  color: $color-text-primary;
+}
+
+.guestControl {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+}
+
+.guestBtn {
+  width: 56rpx;
+  height: 56rpx;
+  background: $color-bg-card;
+  border: 2rpx solid $color-border;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  color: $color-text-primary;
+  font-weight: 600;
+
+  &:active {
+    background: $color-bg-hover;
+  }
+
+  &.disabled {
+    opacity: 0.3;
+  }
+}
+
+.guestValue {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: $color-text-primary;
+  min-width: 48rpx;
+  text-align: center;
+}
+
+.policyNotice {
+  background: rgba(232, 163, 61, 0.1);
+  padding: 20rpx 24rpx;
+  border-radius: 12rpx;
+  margin-top: 16rpx;
+  display: flex;
+  gap: 12rpx;
+
+  .noticeIcon {
+    font-size: 28rpx;
+    flex-shrink: 0;
+  }
+
+  .noticeText {
+    font-size: 24rpx;
+    color: $color-warning;
+    line-height: 1.6;
+  }
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.summaryLabel {
+  font-size: 28rpx;
+  color: $color-text-secondary;
+}
+
+.summaryValue {
+  font-size: 28rpx;
+  color: $color-text-primary;
+
+  &.price {
+    color: $color-price;
+    font-weight: 600;
+  }
+}
+
+.divider {
+  height: 1rpx;
+  background: $color-divider;
+  margin: 20rpx 0;
+}
+
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16rpx;
+  border-top: 2rpx solid $color-divider;
+}
+
+.totalLabel {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: $color-text-primary;
+}
+
+.totalValue {
+  font-size: 48rpx;
+  font-weight: 700;
+  color: $color-price;
+
+  .currency {
+    font-size: 28rpx;
+    font-weight: 500;
+  }
+}
+
+.agreementRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 16rpx;
+  margin-top: 24rpx;
+  padding: 0 32rpx;
+}
+
+.checkbox {
+  width: 36rpx;
+  height: 36rpx;
+  border: 3rpx solid $color-border;
+  border-radius: 8rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  color: $color-text-white;
+  flex-shrink: 0;
+  margin-top: 4rpx;
+
+  &.checked {
+    background: $color-primary;
+    border-color: $color-primary;
+  }
+}
+
+.agreementText {
+  font-size: 24rpx;
+  color: $color-text-secondary;
+  line-height: 1.6;
+
+  .link {
+    color: $color-primary;
+  }
+}
+
+.bottomBar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: $color-bg-card;
+  padding: 24rpx 32rpx;
+  padding-bottom: calc(24rpx + env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24rpx;
+  box-shadow: 0 -4rpx 24rpx rgba(0, 0, 0, 0.06);
+  z-index: 100;
+}
+
+.totalInfo {
+  .totalLabel {
+    font-size: 24rpx;
+    color: $color-text-tertiary;
+    margin-bottom: 4rpx;
+  }
+
+  .totalPrice {
+    font-size: 40rpx;
+    font-weight: 700;
+    color: $color-price;
+
+    .currency {
+      font-size: 24rpx;
+      font-weight: 500;
+    }
+  }
+
+  .depositInfo {
+    font-size: 22rpx;
+    color: $color-text-tertiary;
+    margin-top: 4rpx;
+  }
+}
+
+.submitBtn {
+  background: $color-primary;
+  color: $color-text-white;
+  padding: 24rpx 80rpx;
+  border-radius: 48rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+
+  &:active {
+    opacity: 0.8;
+  }
+
+  &.disabled {
+    background: $color-text-disabled;
+    color: $color-text-white;
+  }
+}
+
+.loading {
+  padding: 80rpx 0;
+  text-align: center;
+  font-size: 28rpx;
+  color: $color-text-tertiary;
+}
+
+.successModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  width: 600rpx;
+  background: $color-bg-card;
+  border-radius: 24rpx;
+  padding: 48rpx 32rpx;
+  text-align: center;
+}
+
+.successIcon {
+  width: 120rpx;
+  height: 120rpx;
+  background: $color-secondary;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 64rpx;
+  margin: 0 auto 24rpx;
+}
+
+.successTitle {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: $color-text-primary;
+  margin-bottom: 12rpx;
+}
+
+.successMsg {
+  font-size: 28rpx;
+  color: $color-text-secondary;
+  margin-bottom: 32rpx;
+  line-height: 1.6;
+}
+
+.orderNo {
+  background: $color-bg-page;
+  padding: 16rpx 24rpx;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+  color: $color-text-secondary;
+  margin-bottom: 32rpx;
+  font-family: monospace;
+}
+
+.modalBtns {
+  display: flex;
+  gap: 24rpx;
+}
+
+.modalBtn {
+  flex: 1;
+  padding: 24rpx;
+  border-radius: 48rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  text-align: center;
+
+  &.primary {
+    background: $color-primary;
+    color: $color-text-white;
+  }
+
+  &.secondary {
+    background: $color-bg-page;
+    color: $color-text-secondary;
+  }
+}

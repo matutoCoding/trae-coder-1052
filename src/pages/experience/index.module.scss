@@ -1,0 +1,92 @@
+@use '@/styles/variables.scss' as *;
+
+.page {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: 40rpx;
+}
+
+.header {
+  padding: $spacing-lg $page-padding;
+  background: linear-gradient(180deg, $color-primary 0%, $color-accent 100%);
+  color: $color-text-white;
+}
+
+.headerTitle {
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-bold;
+  margin-bottom: $spacing-xs;
+}
+
+.headerSubtitle {
+  font-size: $font-size-sm;
+  opacity: 0.9;
+}
+
+.content {
+  padding: 0 $page-padding;
+  margin-top: -$spacing-lg;
+  position: relative;
+  z-index: 10;
+}
+
+.categoryTabs {
+  display: flex;
+  gap: $spacing-sm;
+  overflow-x: auto;
+  padding: $spacing-md 0;
+  margin-bottom: $spacing-md;
+  @include scroll-x-container;
+}
+
+.categoryTab {
+  @include scroll-x-item(auto);
+  padding: $spacing-sm $spacing-lg;
+  background: $color-bg-card;
+  border-radius: $radius-round;
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  white-space: nowrap;
+  transition: all $transition-base;
+  box-shadow: $shadow-card;
+  margin-right: $spacing-sm;
+  
+  &.active {
+    background: linear-gradient(135deg, $color-primary 0%, $color-accent 100%);
+    color: $color-text-white;
+  }
+  
+  &:active {
+    transform: scale(0.96);
+  }
+}
+
+.activityList {
+  padding-bottom: $spacing-xl;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-xxl 0;
+  color: $color-text-tertiary;
+  
+  .icon {
+    font-size: 120rpx;
+    margin-bottom: $spacing-md;
+  }
+  
+  .text {
+    font-size: $font-size-md;
+  }
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: $spacing-xl;
+  color: $color-text-tertiary;
+}

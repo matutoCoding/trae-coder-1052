@@ -1,0 +1,394 @@
+@use '@/styles/variables.scss' as *;
+
+.page {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: 40rpx;
+}
+
+.content {
+  padding: 0 $page-padding;
+  padding-top: $spacing-lg;
+}
+
+.policyCard {
+  background: linear-gradient(135deg, $color-primary-light 0%, $color-bg-tag 100%);
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-lg;
+}
+
+.policyTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-primary;
+  margin-bottom: $spacing-md;
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.policyContent {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  line-height: 1.8;
+}
+
+.policyItem {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: $spacing-sm;
+  
+  &::before {
+    content: '•';
+    color: $color-primary;
+    margin-right: $spacing-sm;
+    font-weight: bold;
+  }
+}
+
+.sectionTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-md;
+  display: flex;
+  align-items: center;
+  
+  &::before {
+    content: '';
+    width: 8rpx;
+    height: 32rpx;
+    background: linear-gradient(180deg, $color-primary 0%, $color-accent 100%);
+    border-radius: $radius-xs;
+    margin-right: $spacing-sm;
+  }
+}
+
+.bookingList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  margin-bottom: $spacing-lg;
+}
+
+.bookingCard {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  box-shadow: $shadow-card;
+}
+
+.bookingHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-md;
+}
+
+.bookingRoom {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.bookingStatus {
+  padding: 6rpx 20rpx;
+  border-radius: $radius-sm;
+  font-size: $font-size-xs;
+  
+  &.confirmed {
+    background: rgba(93, 122, 107, 0.1);
+    color: $color-success;
+  }
+  
+  &.pending {
+    background: rgba(232, 163, 61, 0.1);
+    color: $color-warning;
+  }
+  
+  &.checkedIn {
+    background: rgba(196, 149, 106, 0.1);
+    color: $color-primary;
+  }
+}
+
+.bookingInfo {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-md;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: $font-size-sm;
+}
+
+.infoLabel {
+  color: $color-text-tertiary;
+}
+
+.infoValue {
+  color: $color-text-primary;
+}
+
+.bookingPrice {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: $spacing-md;
+  border-top: 1rpx solid $color-divider;
+}
+
+.priceText {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $color-price;
+}
+
+.refundBtn {
+  @include button-reset;
+  height: $button-height-sm;
+  padding: 0 $spacing-lg;
+  background: $color-bg-hover;
+  color: $color-error;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  border-radius: $radius-button;
+  border: 1rpx solid $color-error;
+  transition: all $transition-base;
+  
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.96);
+  }
+  
+  &.disabled {
+    opacity: 0.5;
+  }
+}
+
+.refundList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.refundCard {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  box-shadow: $shadow-card;
+}
+
+.refundHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-md;
+}
+
+.refundId {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.refundStatus {
+  padding: 6rpx 20rpx;
+  border-radius: $radius-sm;
+  font-size: $font-size-xs;
+  
+  &.pending {
+    background: rgba(232, 163, 61, 0.1);
+    color: $color-warning;
+  }
+  
+  &.approved {
+    background: rgba(93, 122, 107, 0.1);
+    color: $color-success;
+  }
+  
+  &.rejected {
+    background: rgba(214, 69, 69, 0.1);
+    color: $color-error;
+  }
+  
+  &.completed {
+    background: rgba(93, 122, 107, 0.1);
+    color: $color-success;
+  }
+}
+
+.refundInfo {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-md;
+}
+
+.refundAmount {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: $spacing-md;
+  border-top: 1rpx solid $color-divider;
+}
+
+.amountText {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $color-success;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-xxl 0;
+  color: $color-text-tertiary;
+  
+  .icon {
+    font-size: 120rpx;
+    margin-bottom: $spacing-md;
+  }
+  
+  .text {
+    font-size: $font-size-md;
+  }
+}
+
+.applyModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: flex-end;
+  z-index: 200;
+}
+
+.modalContent {
+  width: 100%;
+  background: $color-bg-card;
+  border-radius: $radius-xl $radius-xl 0 0;
+  padding: $spacing-lg;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-lg;
+}
+
+.modalTitle {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.closeBtn {
+  font-size: $font-size-xxl;
+  color: $color-text-tertiary;
+  width: 48rpx;
+  height: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.formGroup {
+  margin-bottom: $spacing-lg;
+}
+
+.formLabel {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  margin-bottom: $spacing-md;
+}
+
+.reasonOptions {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.reasonOption {
+  padding: $spacing-md;
+  background: $color-bg-hover;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  transition: all $transition-base;
+  border: 2rpx solid transparent;
+  
+  &.active {
+    background: rgba(196, 149, 106, 0.1);
+    border-color: $color-primary;
+    color: $color-primary;
+  }
+  
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.refundInfoBox {
+  background: $color-bg-hover;
+  border-radius: $radius-md;
+  padding: $spacing-lg;
+}
+
+.refundRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: $spacing-sm;
+  font-size: $font-size-sm;
+  
+  &:last-child {
+    margin-bottom: 0;
+    padding-top: $spacing-md;
+    border-top: 1rpx solid $color-border;
+  }
+}
+
+.refundRowLabel {
+  color: $color-text-tertiary;
+}
+
+.refundRowValue {
+  color: $color-text-primary;
+  font-weight: $font-weight-medium;
+  
+  &.refund {
+    color: $color-success;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+  }
+}
+
+.confirmBtn {
+  @include button-reset;
+  width: 100%;
+  height: $button-height-lg;
+  background: linear-gradient(135deg, $color-error 0%, #E87575 100%);
+  color: $color-text-white;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  border-radius: $radius-button;
+  margin-top: $spacing-lg;
+  transition: all $transition-base;
+  
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+}

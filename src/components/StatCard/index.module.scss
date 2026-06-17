@@ -1,0 +1,54 @@
+@use '@/styles/variables.scss' as *;
+
+.card {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  box-shadow: $shadow-card;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 180rpx;
+  transition: all $transition-base;
+  
+  &:active {
+    transform: scale(0.96);
+  }
+}
+
+.value {
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-bold;
+  color: $color-primary;
+  line-height: 1.2;
+  margin-bottom: $spacing-xs;
+}
+
+.suffix {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  margin-left: 4rpx;
+  font-weight: $font-weight-normal;
+}
+
+.label {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  text-align: center;
+}
+
+.trend {
+  display: flex;
+  align-items: center;
+  margin-top: $spacing-xs;
+  font-size: $font-size-xs;
+  
+  &.up {
+    color: $color-success;
+  }
+  
+  &.down {
+    color: $color-error;
+  }
+}

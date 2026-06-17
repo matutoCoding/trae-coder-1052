@@ -1,0 +1,191 @@
+@use '@/styles/variables.scss' as *;
+
+.page {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: 40rpx;
+}
+
+.banner {
+  width: 100%;
+  height: 420rpx;
+  
+  :global {
+    .swiper-item {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.bannerImage {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.content {
+  padding: 0 $page-padding;
+  margin-top: -$spacing-xl;
+  position: relative;
+  z-index: 10;
+}
+
+.headerCard {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  box-shadow: $shadow-card;
+  margin-bottom: $spacing-md;
+}
+
+.title {
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-sm;
+}
+
+.subtitle {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  margin-bottom: $spacing-md;
+}
+
+.highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+}
+
+.highlightTag {
+  padding: 6rpx 20rpx;
+  background: linear-gradient(135deg, $color-primary-light 0%, $color-bg-tag 100%);
+  color: $color-primary;
+  font-size: $font-size-xs;
+  border-radius: $radius-round;
+  border: 1rpx solid $color-primary-light;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-md;
+  margin-bottom: $spacing-md;
+}
+
+.infoItem {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-md;
+  box-shadow: $shadow-card;
+}
+
+.infoLabel {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  margin-bottom: 4rpx;
+}
+
+.infoValue {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+}
+
+.section {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  box-shadow: $shadow-card;
+  margin-bottom: $spacing-md;
+}
+
+.sectionTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-md;
+  display: flex;
+  align-items: center;
+  
+  &::before {
+    content: '';
+    width: 8rpx;
+    height: 32rpx;
+    background: linear-gradient(180deg, $color-primary 0%, $color-accent 100%);
+    border-radius: $radius-xs;
+    margin-right: $spacing-sm;
+  }
+}
+
+.sectionContent {
+  font-size: $font-size-md;
+  color: $color-text-secondary;
+  line-height: 1.8;
+  text-align: justify;
+}
+
+.attractionList {
+  margin-top: $spacing-md;
+}
+
+.attractionCard {
+  display: flex;
+  padding: $spacing-md 0;
+  border-bottom: 1rpx solid $color-divider;
+  
+  &:last-child {
+    border-bottom: none;
+  }
+  
+  &:active {
+    opacity: 0.8;
+  }
+}
+
+.attractionImage {
+  width: 180rpx;
+  height: 140rpx;
+  border-radius: $radius-md;
+  flex-shrink: 0;
+  margin-right: $spacing-md;
+}
+
+.attractionInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.attractionName {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  @include text-ellipsis;
+}
+
+.attractionDesc {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  @include text-ellipsis-multi(2);
+  line-height: 1.5;
+}
+
+.attractionMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.attractionMetaItem {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.attractionPrice {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $color-price;
+}

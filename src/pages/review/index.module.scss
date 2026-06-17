@@ -1,0 +1,322 @@
+@import '@/styles/theme.scss';
+
+.page {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: 40rpx;
+}
+
+.header {
+  background: $color-bg-card;
+  padding: 32rpx;
+  box-shadow: 0 4rpx 24rpx rgba(196, 149, 106, 0.08);
+}
+
+.overallRating {
+  display: flex;
+  align-items: center;
+  gap: 32rpx;
+  padding-bottom: 32rpx;
+  border-bottom: 1rpx solid $color-divider;
+}
+
+.ratingLeft {
+  text-align: center;
+  padding-right: 32rpx;
+  border-right: 1rpx solid $color-divider;
+}
+
+.ratingValue {
+  font-size: 80rpx;
+  font-weight: 700;
+  color: $color-warning;
+  line-height: 1;
+}
+
+.ratingStars {
+  font-size: 32rpx;
+  color: $color-warning;
+  letter-spacing: 4rpx;
+  margin-top: 8rpx;
+}
+
+.ratingCount {
+  font-size: 24rpx;
+  color: $color-text-tertiary;
+  margin-top: 8rpx;
+}
+
+.ratingRight {
+  flex: 1;
+}
+
+.ratingItem {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 12rpx;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.ratingLabel {
+  width: 96rpx;
+  font-size: 24rpx;
+  color: $color-text-secondary;
+}
+
+.ratingBar {
+  flex: 1;
+  height: 12rpx;
+  background: $color-bg-page;
+  border-radius: 6rpx;
+  overflow: hidden;
+}
+
+.ratingFill {
+  height: 100%;
+  background: $color-warning;
+  border-radius: 6rpx;
+  transition: width 0.3s ease;
+}
+
+.ratingScore {
+  width: 64rpx;
+  font-size: 24rpx;
+  color: $color-text-primary;
+  font-weight: 600;
+  text-align: right;
+}
+
+.filterTabs {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 24rpx;
+  flex-wrap: wrap;
+}
+
+.filterTab {
+  padding: 12rpx 28rpx;
+  background: $color-bg-page;
+  border-radius: 32rpx;
+  font-size: 26rpx;
+  color: $color-text-secondary;
+  transition: all 0.2s ease;
+
+  &.active {
+    background: $color-primary;
+    color: $color-text-white;
+    font-weight: 600;
+  }
+}
+
+.summaryRow {
+  display: flex;
+  gap: 24rpx;
+  margin-top: 24rpx;
+  padding-top: 24rpx;
+  border-top: 1rpx solid $color-divider;
+}
+
+.summaryItem {
+  flex: 1;
+  text-align: center;
+  padding: 16rpx;
+  background: $color-bg-page;
+  border-radius: 16rpx;
+}
+
+.summaryValue {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: $color-text-primary;
+}
+
+.summaryLabel {
+  font-size: 22rpx;
+  color: $color-text-tertiary;
+  margin-top: 4rpx;
+}
+
+.reviewList {
+  padding: 32rpx;
+}
+
+.reviewCard {
+  background: $color-bg-card;
+  border-radius: 24rpx;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 4rpx 24rpx rgba(196, 149, 106, 0.08);
+}
+
+.reviewHeader {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.avatar {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.reviewerInfo {
+  flex: 1;
+}
+
+.reviewerName {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: $color-text-primary;
+}
+
+.reviewMeta {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-top: 8rpx;
+}
+
+.reviewStars {
+  font-size: 24rpx;
+  color: $color-warning;
+  letter-spacing: 2rpx;
+}
+
+.reviewDate {
+  font-size: 22rpx;
+  color: $color-text-tertiary;
+}
+
+.reviewType {
+  padding: 4rpx 12rpx;
+  background: $color-primary-light;
+  color: $color-primary-dark;
+  border-radius: 6rpx;
+  font-size: 20rpx;
+  font-weight: 500;
+}
+
+.reviewContent {
+  font-size: 28rpx;
+  color: $color-text-secondary;
+  line-height: 1.8;
+  margin-bottom: 20rpx;
+}
+
+.reviewImages {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12rpx;
+  margin-bottom: 20rpx;
+}
+
+.reviewImage {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 12rpx;
+}
+
+.reviewRoom {
+  font-size: 24rpx;
+  color: $color-text-tertiary;
+  margin-bottom: 16rpx;
+  padding: 12rpx 16rpx;
+  background: $color-bg-page;
+  border-radius: 12rpx;
+  display: inline-block;
+}
+
+.replySection {
+  background: $color-bg-tag;
+  padding: 20rpx 24rpx;
+  border-radius: 16rpx;
+  border-left: 4rpx solid $color-secondary;
+}
+
+.replyHeader {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 8rpx;
+}
+
+.replyIcon {
+  font-size: 24rpx;
+}
+
+.replyLabel {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: $color-secondary;
+}
+
+.replyContent {
+  font-size: 26rpx;
+  color: $color-text-secondary;
+  line-height: 1.7;
+}
+
+.replyDate {
+  font-size: 22rpx;
+  color: $color-text-tertiary;
+  margin-top: 12rpx;
+}
+
+.tagsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-top: 16rpx;
+}
+
+.tag {
+  padding: 6rpx 16rpx;
+  background: $color-bg-tag;
+  color: $color-primary-dark;
+  border-radius: 8rpx;
+  font-size: 22rpx;
+}
+
+.empty {
+  padding: 120rpx 0;
+  text-align: center;
+}
+
+.emptyIcon {
+  font-size: 96rpx;
+  margin-bottom: 24rpx;
+  opacity: 0.5;
+}
+
+.emptyText {
+  font-size: 28rpx;
+  color: $color-text-tertiary;
+}
+
+.loading {
+  padding: 80rpx 0;
+  text-align: center;
+  font-size: 28rpx;
+  color: $color-text-tertiary;
+}
+
+.loadMore {
+  text-align: center;
+  padding: 32rpx 0;
+  font-size: 26rpx;
+  color: $color-text-tertiary;
+}
+
+.noMore {
+  text-align: center;
+  padding: 32rpx 0;
+  font-size: 24rpx;
+  color: $color-text-tertiary;
+}

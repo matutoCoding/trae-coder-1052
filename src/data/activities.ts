@@ -1,0 +1,132 @@
+import type { Activity } from '@/types';
+
+export const activityList: Activity[] = [
+  {
+    id: '1',
+    title: '客家围龙屋文化深度游',
+    type: 'culture',
+    description: '跟随资深客家文化讲解员，深入了解土楼建筑智慧、客家迁徙历史、宗族文化传统。参观百年土楼，聆听客家故事，感受中原古韵在岭南的传承与发展。',
+    price: 128,
+    duration: '2.5小时',
+    date: '2026-06-20',
+    time: '09:00-11:30',
+    maxParticipants: 20,
+    currentParticipants: 12,
+    image: 'https://picsum.photos/id/1082/750/500',
+    tags: ['文化体验', '讲解服务', '历史探索'],
+    location: '怀远堂主楼'
+  },
+  {
+    id: '2',
+    title: '采茶制茶非遗体验',
+    type: 'tea',
+    description: '清晨跟随茶农上山采茶，学习传统制茶工艺：萎凋、揉捻、发酵、烘焙。亲手制作一包属于自己的客家高山茶，感受一片茶叶的蜕变之旅。',
+    price: 268,
+    duration: '4小时',
+    date: '2026-06-21',
+    time: '06:30-10:30',
+    maxParticipants: 15,
+    currentParticipants: 8,
+    image: 'https://picsum.photos/id/1039/750/500',
+    tags: ['采茶', '制茶', '非遗体验'],
+    location: '高山茶园'
+  },
+  {
+    id: '3',
+    title: '客家山歌传唱课',
+    type: 'culture',
+    description: '由客家山歌传承人亲自授课，学习原汁原味的客家山歌。了解山歌的历史背景、演唱技巧，体验客家人民用歌声表达情感的独特方式。',
+    price: 88,
+    duration: '1.5小时',
+    date: '2026-06-22',
+    time: '15:00-16:30',
+    maxParticipants: 30,
+    currentParticipants: 18,
+    image: 'https://picsum.photos/id/1044/750/500',
+    tags: ['音乐', '传统文化', '互动体验'],
+    location: '土楼戏台'
+  },
+  {
+    id: '4',
+    title: '客家少年研学营',
+    type: 'study',
+    description: '专为6-12岁儿童设计的研学活动，内容包括：土楼建筑探秘、客家礼仪学习、传统手工艺制作、农耕体验。让孩子们在玩乐中学习传统文化知识。',
+    price: 198,
+    duration: '1天',
+    date: '2026-06-23',
+    time: '09:00-17:00',
+    maxParticipants: 25,
+    currentParticipants: 15,
+    image: 'https://picsum.photos/id/1045/750/500',
+    tags: ['研学', '亲子', '教育'],
+    location: '土楼研学基地'
+  },
+  {
+    id: '5',
+    title: '客家美食制作工坊',
+    type: 'culture',
+    description: '跟着客家阿婆学做传统美食：酿豆腐、梅菜扣肉、客家糍粑、艾粄。亲手制作，亲口品尝，还可以把自己的劳动成果打包带回家。',
+    price: 168,
+    duration: '3小时',
+    date: '2026-06-24',
+    time: '14:00-17:00',
+    maxParticipants: 20,
+    currentParticipants: 16,
+    image: 'https://picsum.photos/id/292/750/500',
+    tags: ['美食', '手工', '互动'],
+    location: '客家厨房'
+  },
+  {
+    id: '6',
+    title: '端午客家龙舟节',
+    type: 'festival',
+    description: '一年一度的客家龙舟盛会！观看传统龙舟比赛，参与龙舟祭典仪式，品尝端午特色美食，体验最地道的客家端午文化。',
+    price: 88,
+    duration: '半天',
+    date: '2026-06-25',
+    time: '08:00-12:00',
+    maxParticipants: 100,
+    currentParticipants: 78,
+    image: 'https://picsum.photos/id/1038/750/500',
+    tags: ['节庆', '龙舟', '民俗'],
+    location: '土楼码头'
+  },
+  {
+    id: '7',
+    title: '茶艺品鉴会',
+    type: 'tea',
+    description: '品鉴客家特色名茶：单丛茶、乌龙茶、客家炒茶。由专业茶艺师讲解茶叶知识，学习正确的泡茶方法，感受中国茶道文化的博大精深。',
+    price: 128,
+    duration: '2小时',
+    date: '2026-06-26',
+    time: '19:00-21:00',
+    maxParticipants: 12,
+    currentParticipants: 6,
+    image: 'https://picsum.photos/id/1039/750/500',
+    tags: ['品茶', '茶道', '休闲'],
+    location: '茶韵轩'
+  },
+  {
+    id: '8',
+    title: '客家民俗婚嫁表演',
+    type: 'festival',
+    description: '观赏原汁原味的客家传统婚嫁仪式表演：迎亲、拜堂、入洞房。可以穿上客家婚嫁服饰拍照留念，体验一回客家新人的喜悦。',
+    price: 68,
+    duration: '1.5小时',
+    date: '2026-06-27',
+    time: '16:00-17:30',
+    maxParticipants: 50,
+    currentParticipants: 35,
+    image: 'https://picsum.photos/id/1003/750/500',
+    tags: ['民俗', '表演', '拍照'],
+    location: '土楼广场'
+  }
+];
+
+export const activityTypes = [
+  { key: 'all', label: '全部活动' },
+  { key: 'culture', label: '文化体验' },
+  { key: 'tea', label: '采茶制茶' },
+  { key: 'study', label: '研学接待' },
+  { key: 'festival', label: '节庆活动' }
+];

@@ -1,0 +1,422 @@
+@import '@/styles/theme.scss';
+
+.page {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: 160rpx;
+}
+
+.banner {
+  width: 100%;
+  height: 500rpx;
+
+  :global(.taro-swiper) {
+    height: 100%;
+  }
+}
+
+.bannerImage {
+  width: 100%;
+  height: 100%;
+}
+
+.badge {
+  position: absolute;
+  top: 24rpx;
+  left: 24rpx;
+  background: rgba(212, 101, 62, 0.95);
+  color: $color-text-white;
+  padding: 8rpx 20rpx;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+  font-weight: 600;
+  z-index: 10;
+}
+
+.content {
+  padding: 32rpx;
+}
+
+.header {
+  background: $color-bg-card;
+  border-radius: 24rpx;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 4rpx 24rpx rgba(196, 149, 106, 0.08);
+}
+
+.titleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16rpx;
+}
+
+.title {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: $color-text-primary;
+  flex: 1;
+  line-height: 1.4;
+}
+
+.statusTag {
+  padding: 8rpx 20rpx;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+  font-weight: 500;
+  flex-shrink: 0;
+  margin-left: 16rpx;
+}
+
+.available { background: rgba(93, 122, 107, 0.1); color: $color-available; }
+.booked { background: rgba(214, 69, 69, 0.1); color: $color-booked; }
+.maintenance { background: rgba(156, 139, 125, 0.1); color: $color-text-tertiary; }
+
+.subInfo {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  margin-bottom: 20rpx;
+  flex-wrap: wrap;
+}
+
+.typeTag {
+  background: $color-primary-light;
+  color: $color-primary-dark;
+  padding: 6rpx 16rpx;
+  border-radius: 6rpx;
+  font-size: 22rpx;
+  font-weight: 500;
+}
+
+.infoItem {
+  font-size: 26rpx;
+  color: $color-text-secondary;
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.ratingRow {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.rating {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: $color-warning;
+}
+
+.stars {
+  font-size: 28rpx;
+  color: $color-warning;
+  letter-spacing: 2rpx;
+}
+
+.reviewCount {
+  font-size: 24rpx;
+  color: $color-text-tertiary;
+}
+
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  gap: 12rpx;
+  margin-top: 24rpx;
+  padding-top: 24rpx;
+  border-top: 1rpx solid $color-divider;
+}
+
+.price {
+  font-size: 56rpx;
+  font-weight: 700;
+  color: $color-price;
+
+  .currency {
+    font-size: 32rpx;
+    font-weight: 500;
+  }
+}
+
+.originalPrice {
+  font-size: 28rpx;
+  color: $color-text-tertiary;
+  text-decoration: line-through;
+}
+
+.unit {
+  font-size: 24rpx;
+  color: $color-text-tertiary;
+}
+
+.section {
+  background: $color-bg-card;
+  border-radius: 24rpx;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 4rpx 24rpx rgba(196, 149, 106, 0.08);
+}
+
+.sectionTitle {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: $color-text-primary;
+  margin-bottom: 24rpx;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+
+  &::before {
+    content: '';
+    width: 8rpx;
+    height: 32rpx;
+    background: $color-primary;
+    border-radius: 4rpx;
+  }
+}
+
+.description {
+  font-size: 28rpx;
+  color: $color-text-secondary;
+  line-height: 1.8;
+}
+
+.facilityGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24rpx;
+}
+
+.facilityItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.facilityIcon {
+  width: 80rpx;
+  height: 80rpx;
+  background: $color-bg-tag;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+}
+
+.facilityName {
+  font-size: 24rpx;
+  color: $color-text-secondary;
+}
+
+.calendarSection {
+  .calendarHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24rpx;
+  }
+
+  .monthLabel {
+    font-size: 28rpx;
+    font-weight: 600;
+    color: $color-text-primary;
+  }
+
+  .legend {
+    display: flex;
+    gap: 24rpx;
+    font-size: 22rpx;
+    color: $color-text-tertiary;
+  }
+
+  .legendItem {
+    display: flex;
+    align-items: center;
+    gap: 8rpx;
+  }
+
+  .legendDot {
+    width: 16rpx;
+    height: 16rpx;
+    border-radius: 50%;
+  }
+
+  .weekRow {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 16rpx;
+  }
+
+  .weekDay {
+    text-align: center;
+    font-size: 24rpx;
+    color: $color-text-tertiary;
+    padding: 12rpx 0;
+  }
+
+  .dateGrid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8rpx;
+  }
+
+  .dateCell {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12rpx;
+    padding: 8rpx;
+    font-size: 26rpx;
+    position: relative;
+    transition: all 0.2s ease;
+  }
+
+  .dateDay {
+    font-weight: 600;
+    color: $color-text-primary;
+  }
+
+  .datePrice {
+    font-size: 20rpx;
+    color: $color-price;
+    margin-top: 4rpx;
+  }
+
+  .empty {
+    visibility: hidden;
+  }
+
+  .available {
+    background: $color-bg-page;
+
+    &.selected {
+      background: $color-primary;
+      .dateDay, .datePrice { color: $color-text-white; }
+    }
+
+    &.range {
+      background: rgba(196, 149, 106, 0.2);
+    }
+  }
+
+  .booked {
+    background: rgba(214, 69, 69, 0.1);
+    .dateDay { color: $color-text-tertiary; }
+    .datePrice { color: $color-text-tertiary; text-decoration: line-through; }
+  }
+
+  .pending {
+    background: rgba(232, 163, 61, 0.1);
+  }
+}
+
+.policySection {
+  .policyItem {
+    display: flex;
+    gap: 16rpx;
+    margin-bottom: 20rpx;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .policyIcon {
+    width: 48rpx;
+    height: 48rpx;
+    background: $color-bg-tag;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24rpx;
+    flex-shrink: 0;
+  }
+
+  .policyContent {
+    flex: 1;
+  }
+
+  .policyTitle {
+    font-size: 28rpx;
+    font-weight: 600;
+    color: $color-text-primary;
+    margin-bottom: 6rpx;
+  }
+
+  .policyDesc {
+    font-size: 24rpx;
+    color: $color-text-secondary;
+    line-height: 1.6;
+  }
+}
+
+.bottomBar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: $color-bg-card;
+  padding: 24rpx 32rpx;
+  padding-bottom: calc(24rpx + env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  box-shadow: 0 -4rpx 24rpx rgba(0, 0, 0, 0.06);
+  z-index: 100;
+}
+
+.selectedInfo {
+  flex: 1;
+
+  .selectedLabel {
+    font-size: 24rpx;
+    color: $color-text-tertiary;
+    margin-bottom: 6rpx;
+  }
+
+  .selectedDates {
+    font-size: 28rpx;
+    font-weight: 600;
+    color: $color-text-primary;
+  }
+
+  .totalPrice {
+    font-size: 32rpx;
+    font-weight: 700;
+    color: $color-price;
+    margin-top: 4rpx;
+  }
+}
+
+.bookBtn {
+  background: $color-primary;
+  color: $color-text-white;
+  padding: 24rpx 64rpx;
+  border-radius: 48rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+
+  &:active {
+    opacity: 0.8;
+  }
+
+  &.disabled {
+    background: $color-text-disabled;
+    color: $color-text-white;
+  }
+}
+
+.loading {
+  padding: 80rpx 0;
+  text-align: center;
+  font-size: 28rpx;
+  color: $color-text-tertiary;
+}

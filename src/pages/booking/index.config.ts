@@ -1,0 +1,5 @@
+export default {
+  navigationBarTitleText: '预订确认',
+  enablePullDownRefresh: false,
+  backgroundTextStyle: 'dark'
+};
