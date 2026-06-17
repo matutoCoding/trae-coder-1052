@@ -80,6 +80,130 @@ export const reviewList: Review[] = [
     ],
     date: '2026-06-08',
     type: 'activity'
+  },
+  {
+    id: '7',
+    roomId: '1',
+    userName: '陈小红',
+    avatar: 'https://picsum.photos/id/65/200/200',
+    rating: 4,
+    content: '怀远堂套房设施很新，装修保留了客家风格又有现代舒适感。茶台很赞，泡了铁观音慢慢品，窗外就是土楼天井。就是热水有点慢，等了几分钟才来。',
+    images: [
+      'https://picsum.photos/id/1043/400/300'
+    ],
+    date: '2026-06-07',
+    type: 'room'
+  },
+  {
+    id: '8',
+    roomId: '3',
+    userName: '林大海',
+    avatar: 'https://picsum.photos/id/91/200/200',
+    rating: 5,
+    content: '带两个孩子住家庭房，空间很宽敞，儿童用品很贴心。一楼出入方便，院子里孩子跑来跑去玩得开心。老板还送了客家米酒，味道醇厚！',
+    images: [
+      'https://picsum.photos/id/1044/400/300',
+      'https://picsum.photos/id/1036/400/300',
+      'https://picsum.photos/id/1038/400/300'
+    ],
+    date: '2026-06-06',
+    type: 'room',
+    reply: '感谢一家人的光临！孩子们开心我们就放心了，下次来可以带孩子参加土楼研学活动，更有趣！'
+  },
+  {
+    id: '9',
+    roomId: '4',
+    userName: '孙丽丽',
+    avatar: 'https://picsum.photos/id/177/200/200',
+    rating: 3,
+    content: '民俗大床房价格实惠，但公共卫浴确实不太方便，晚上要排队。房间本身还是干净的，空调WiFi都有。如果预算有限可以试试，追求品质的还是选独立卫浴的房型吧。',
+    images: [],
+    date: '2026-06-05',
+    type: 'room'
+  },
+  {
+    id: '10',
+    roomId: '5',
+    userName: '周杰',
+    avatar: 'https://picsum.photos/id/338/200/200',
+    rating: 5,
+    content: '天井景观套房绝对是土楼民宿的天花板！阳台正对天井，日出日落都绝美。迷你吧的客家小吃很惊喜，智能电视可以投屏。值得每一分钱！',
+    images: [
+      'https://picsum.photos/id/1047/400/300',
+      'https://picsum.photos/id/1051/400/300',
+      'https://picsum.photos/id/1039/400/300',
+      'https://picsum.photos/id/1040/400/300'
+    ],
+    date: '2026-06-04',
+    type: 'room',
+    reply: '感谢您的高度认可！天井套房确实是我们最用心的作品，期待您再次光临体验不同季节的土楼之美。'
+  },
+  {
+    id: '11',
+    roomId: '2',
+    userName: '黄小芳',
+    avatar: 'https://picsum.photos/id/1027/200/200',
+    rating: 5,
+    content: '振成楼观景房视野超棒！三楼能看到整片青山和梯田，早上被云海美醒。房间虽然是标准间但布置得很温馨，床品也很舒服。下次还会选这个房型！',
+    images: [
+      'https://picsum.photos/id/1056/400/300',
+      'https://picsum.photos/id/1057/400/300'
+    ],
+    date: '2026-06-03',
+    type: 'room',
+    reply: '感谢您的好评！三楼的观景效果确实一流，建议您秋冬再来，云海更壮观！'
+  },
+  {
+    id: '12',
+    roomId: '4',
+    userName: '马飞',
+    avatar: 'https://picsum.photos/id/65/200/200',
+    rating: 4,
+    content: '民俗大床房体验到了原汁原味的土楼生活，木质结构很有味道。公共卫浴比想象中干净很多，阿姨打扫很勤快。性价比很高，学生党推荐！',
+    images: [
+      'https://picsum.photos/id/1041/400/300'
+    ],
+    date: '2026-06-02',
+    type: 'room'
+  },
+  {
+    id: '13',
+    roomId: '6',
+    userName: '吴明',
+    avatar: 'https://picsum.photos/id/91/200/200',
+    rating: 4,
+    content: '温馨标准间虽然面积不大但五脏俱全，双床适合和朋友一起住。一楼出入方便，晚上在天井纳凉很惬意。就是隔壁说话能听到一点，隔音一般。',
+    images: [],
+    date: '2026-06-01',
+    type: 'room'
+  },
+  {
+    id: '14',
+    roomId: '1',
+    userName: '郑美丽',
+    avatar: 'https://picsum.photos/id/177/200/200',
+    rating: 5,
+    content: '第二次住怀远堂了，这次带了爸妈一起来。老人家特别喜欢这里，说住出了小时候的感觉。茶台泡茶、观景窗看天井，爸妈赞不绝口！',
+    images: [
+      'https://picsum.photos/id/1048/400/300',
+      'https://picsum.photos/id/1040/400/300',
+      'https://picsum.photos/id/1038/400/300'
+    ],
+    date: '2026-05-28',
+    type: 'room'
+  },
+  {
+    id: '15',
+    roomId: '3',
+    userName: '杨帆',
+    avatar: 'https://picsum.photos/id/338/200/200',
+    rating: 4,
+    content: '家庭房带小朋友住非常合适，有专门的儿童洗漱用品和小拖鞋。楼下就是院子，孩子玩得安全。唯一遗憾是房间在1楼采光略差，但出门方便弥补了这点。',
+    images: [
+      'https://picsum.photos/id/1044/400/300'
+    ],
+    date: '2026-05-25',
+    type: 'room'
   }
 ];
 
